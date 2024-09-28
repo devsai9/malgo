@@ -111,4 +111,4 @@ export function clear(color) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-drawBlock(0, 0, 1, 0, "block");
+//drawBlock(0, 0, 1, 0, "block");
