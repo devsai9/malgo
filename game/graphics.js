@@ -12,6 +12,8 @@ canvas.style.height = "100%";
 
 const dp = window.devicePixelRatio;
 
+onResize();
+
 function onResize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -20,8 +22,11 @@ function onResize() {
 }
 
 function scaleLen(l) {
-    if(w > h) return window.innerHeight / resolution * l;
-    else return window.innerWidth / resolution * l;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    if(w > h) return h / resolution * l;
+    else w / resolution * l;
 }
 
 function transPos(x, y) {
@@ -68,7 +73,9 @@ export function drawBlock(x, y, type) {
     for(let i = 0; i < 64; i++) {
         const ix = i % 8;
         const iy = Math.floor(i / 8);
-        if(tile[i] === 1) ctx.fillRect(sx + ix * size, sy + iy * size, size, size);
+        if(tile[i] === 1) {
+            ctx.fillRect(sx + ix * size, sy + iy * size, size, size);
+        }
     }
 }
 
