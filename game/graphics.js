@@ -12,6 +12,7 @@ canvas.style.height = "100%";
 canvas.style.imageRendering = "pixelated";
 
 const dp = window.devicePixelRatio;
+const dimensions = { w: window.innerWidth, h: window.innerHeight };
 
 resizeCanvas();
 
@@ -25,16 +26,16 @@ export function resizeCanvas() {
 function scaleLen(l) {
     l *= dp;
 
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = dimensions.w;
+    const h = dimensions.h;
 
     if(w > h) return h / resolution * l;
     else w / resolution * l;
 }
 
 function transPos(x, y) {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    const w = dimensions.w;
+    const h = dimensions.h;
     const ratio = w / h;
     if(ratio > 1) {
         // Too wide
