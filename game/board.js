@@ -1,0 +1,97 @@
+// True: Open; False: Wall
+const board = [
+    [{top: false, right: true, bottom: true, left: false}]
+];
+
+const player = {
+    x: 0,
+    y: 0
+}
+
+let numCellsGenerated = 0;
+
+for (let i = 0; i < 32; i++) {
+    if (i != 0) board.push([]);
+    for (let j = (i == 0 ? 1 : 0); j < 32; j++) {
+        board[i].push(null);
+    }
+}
+
+console.log(board);
+
+export function getCell(direction) {
+    // 0: Right, Up: 1, Left: 2, Down: 3
+    // Calculate new coordinates
+    let xn = player.x;
+    let yn = player.y;
+    switch(direction) {
+        case 0:
+            xn++;
+            break;
+        case 1:
+            yn++;
+            break;
+        case 2:
+            xn--;
+            break;
+        case 3:
+            yn--;
+            break;
+    }
+
+    player.x = xn;
+    player.y = yn;
+    // Check if cell already exists
+    if (board[yn][xn] != null) return board[yn][xn];
+    
+    // Generate new cell
+    const newTile = {top: false, right: false, bottom: false, left: false};
+    const openings = [];
+
+    // Randomly generate an exit
+    if (numCellsGenerated > 20) {
+        if (Math.random() < 0.25) {
+            newTile.top = false;
+            newTile.right = false;
+            newTile.bottom = false;
+            newTile.left = false;
+        }
+
+        numCellsGenerated++;
+        return;
+    }
+
+    // Checking
+    if (xn == 0) newTile.left = false;
+    else if (board[yn][xn - 1] != null) {
+        newTile.left = board[yn][xn - 1].right;
+    } else openings.push("left");
+
+    if (yn == 0) newTile.top = false;
+    else if (board[yn - 1][xn] != null) {
+        newTile.top = board[yn - 1][xn].bottom;
+    } else openings.push("top");
+
+    if (xn == 31) newTile.right = false;
+    else if (board[yn][xn + 1] != null) {
+        newTile.right = board[yn][xn + 1].left;
+    } else openings.push("right");
+
+    if (yn == 31) newTile.bottom = false;
+    else if (board[yn + 1][xn] != null) {
+        newTile.bottom = board[yn + 1][xn].top;
+    } else openings.push("bottom");
+
+    // Procedural generation
+    openings.forEach(opening => {
+        if (Math.random() < 0.5) {
+            newTile[opening] = true;
+        }
+    });
+    
+    numCellsGenerated++;
+
+    console.log(board);
+    board[yn][xn] = newTile;
+    return newTile;
+}
