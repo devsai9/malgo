@@ -1,7 +1,19 @@
 import * as Graphics from "./graphics.js";
+import * as Cell from "./cell.js";
+
 Graphics.clear();
-Graphics.drawBlock(0, 0, 1);
-Graphics.drawBlock(1, 0, 2);
+Cell.loadCell({top: false, bottom: false, left: false, right: false}, { x: 0, y: 0 });
+Cell.drawCell();
+
+document.body.addEventListener("keydown", (e) => {
+    const key = e.key.toLowerCase();
+    switch(key) {
+        case "d": Cell.movePlayer(0); break;
+        case "s": Cell.movePlayer(1); break;
+        case "a": Cell.movePlayer(2); break;
+        case "w": Cell.movePlayer(3); break;
+    }
+});
 
 // const board = [
 //     [{top: false, right: true, bottom: true, left: false}],
