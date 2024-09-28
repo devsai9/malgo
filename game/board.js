@@ -19,6 +19,10 @@ for (let i = 0; i < 32; i++) {
 
 console.log(board);
 
+export function getInitial() {
+    return board[0][0];
+}
+
 export function getCell(direction) {
     // 0: Right, Up: 1, Left: 2, Down: 3
     // Calculate new coordinates
@@ -29,19 +33,20 @@ export function getCell(direction) {
             xn++;
             break;
         case 1:
-            yn++;
+            yn--;
             break;
         case 2:
             xn--;
             break;
         case 3:
-            yn--;
+            yn++;
             break;
     }
 
     player.x = xn;
     player.y = yn;
     // Check if cell already exists
+    console.log(`x: ${xn}, y: ${yn}`);
     if (board[yn][xn] != null) return board[yn][xn];
     
     // Generate new cell

@@ -1,4 +1,5 @@
 import * as Graphics from "./graphics.js";
+import * as Board from "./board.js";
 
 const _BlockType = [
     "WALL",
@@ -14,19 +15,17 @@ const pos = {
     y: 0
 };
 
-loadCell({ top: false, bottom: false, left: false, right: false }, { x: 0, y: 0 });
+loadCell({ top: false, bottom: false, left: false, right: false });
 
 function makeBlock(param) {
     return param ? BlockType.AIR : BlockType.WALL;
 }
 
-export function loadCell(cellNew, posNew) {
+export function loadCell(cellNew) {
     cell.top = cellNew.top;
     cell.bottom = cellNew.bottom;
     cell.left = cellNew.left;
     cell.right = cellNew.right;
-    pos.x = posNew.x;
-    pos.y = posNew.y;
     const blockTop = makeBlock(cellNew.top);
     const blockBottom = makeBlock(cellNew.bottom);
     const blockLeft = makeBlock(cellNew.left);
@@ -95,17 +94,26 @@ export function movePlayer(dir) {
             xn++;
             break;
         case 1:
-            yn++;
+            yn--;
             break;
         case 2:
             xn--;
             break;
         case 3:
-            yn--;
+            yn++;
             break;
     }
     
-    if(xn > 3 || xn < -3 || yn > 3 || yn < -3) return;
+    if(xn > 3 || xn < -3 || yn > 3 || yn < -3) {
+        const cellNew = Board.getCell(dir);
+        loadCell(cellNew);
+        if(dir === 0) pos.x = -3;
+        else if(dir === 1) pos.y = 3;
+        else if(dir === 2) pos.x = 3;
+        else if(dir === 3) pos.y = -3;
+        drawCell();
+        return;
+    }
     const xs = xn + 3;
     const ys = yn + 3;
     if(blocks[7 * ys + xs] !== BlockType.AIR) return;
