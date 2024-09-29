@@ -66,6 +66,7 @@ export function getCell(direction) {
             newTile.right = false;
             newTile.bottom = false;
             newTile.left = false;
+            newTile.exit = true;
         }
 
         numCellsGenerated++;
