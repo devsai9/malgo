@@ -110,7 +110,6 @@ function drawPlayer() {
 
 export function movePlayer(dir) {
     if(playerAnim !== 0) return;
-    playerAnim = 1;
     lastDir = dir;
     let xn = pos.x;
     let yn = pos.y;
@@ -142,6 +141,7 @@ export function movePlayer(dir) {
     const xs = xn + 3;
     const ys = yn + 3;
     if(blocks[7 * ys + xs] !== BlockType.AIR) return;
+    playerAnim = 1;
     pos.x = xn;
     pos.y = yn;
     drawCell(); 
