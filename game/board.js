@@ -1,3 +1,4 @@
+import * as Graphics from "./graphics.js";
 // True: Open; False: Wall
 const board = [
     [{top: false, right: true, bottom: true, left: false}]
@@ -54,17 +55,17 @@ export function getCell(direction) {
     const openings = [];
 
     // Randomly generate an exit
-    if (numCellsGenerated > 20) {
-        if (Math.random() < 0.25) {
-            newTile.top = false;
-            newTile.right = false;
-            newTile.bottom = false;
-            newTile.left = false;
-        }
+    // if (numCellsGenerated > 20) {
+    //     if (Math.random() < 0.25) {
+    //         newTile.top = false;
+    //         newTile.right = false;
+    //         newTile.bottom = false;
+    //         newTile.left = false;
+    //     }
 
-        numCellsGenerated++;
-        return newTile;
-    }
+    //     numCellsGenerated++;
+    //     return newTile;
+    // }
 
     // Checking
     if (xn == 0) newTile.left = false;
@@ -89,7 +90,7 @@ export function getCell(direction) {
 
     // Procedural generation
     openings.forEach(opening => {
-        if (Math.random() < 0.8) {
+        if (Math.random() < 0.7) {
             newTile[opening] = true;
         }
     });
@@ -99,4 +100,25 @@ export function getCell(direction) {
     console.log(board);
     board[yn][xn] = newTile;
     return newTile;
+}
+
+export function drawMap() {
+    let blockSize = 2;
+    Graphics.drawRect(0, 0, 128, 128, "overlay");
+    for (let i = 0; i < 32; i++) {
+        for (let j = 0; j < 32; j++) {
+            const cell = board[j][i];
+            if (cell == null) {
+                Graphics.drawRect((i + 16) * blockSize, (j + 16) * blockSize, blockSize, blockSize, "unexplored");
+                continue;
+            }
+
+            if (!cell.top) Graphics.drawRect((i + 16) * blockSize, (j + 16) * blockSize, blockSize, blockSize * 0.25, "block");
+            if (!cell.right) Graphics.drawRect((i + 16.75) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize, "block");
+            if (!cell.bottom) Graphics.drawRect((i + 16) * blockSize, (j + 16.75) * blockSize, blockSize, blockSize * 0.25, "block");
+            if (!cell.left) Graphics.drawRect((i + 16) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize, "block");
+
+            if (i == player.x && j == player.y) Graphics.drawRect((i + 16.25) * blockSize, (j + 16.25) * blockSize, blockSize * 0.5, blockSize * 0.5, "player");
+        }
+    }
 }

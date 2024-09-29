@@ -81,7 +81,9 @@ const displaySettings = {
     block: "#afff5e",
     text: "#6ef8ff",
     player: "#ffffff",
-    cone: "#ff3050"//"#ff7086"// "#ffb74a"
+    barricade: "#ff3050", //"#ff7086"// "#ffb74a"
+    overlay: "#000000",
+    unexplored: "#555555"
 };
 
 export function setDisplay(setting, value) {
@@ -104,9 +106,17 @@ export function drawBlock(x, y, dir, type, channel) {
         const ix = i % 8 - 4;
         const iy = Math.floor(i / 8) - 4;
         if(tile[i] === 1) {
-            ctx.fillRect(f(sx + ix * size), f(sy + iy * size), f(size), f(size));
+            ctx.fillRect(f(sx + ix * size), f(sy + iy * size), f(size) + 1, f(size) + 1);
         }
     }
+}
+
+export function drawRect(x, y, w, h, channel) {
+    ctx.fillStyle = getDisplay(channel);
+    const [ px, py ] = transPos(x, y);
+    console.log("X: " + px + ", Y: " + py);
+    const f = sanitize;
+    ctx.fillRect(f(px), f(py), scaleLen(w), scaleLen(h));
 }
 
 export function clear(color) {
