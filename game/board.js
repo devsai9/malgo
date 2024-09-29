@@ -30,6 +30,7 @@ export function getPos() {
     return [ player.x, player.y ];
 }
 
+let hasExit = false;
 export function getCell(direction) {
     // 0: Right, Up: 1, Left: 2, Down: 3
     // Calculate new coordinates
@@ -61,7 +62,7 @@ export function getCell(direction) {
 
     // Randomly generate an exit
     if (numCellsGenerated > 30) {
-        if (Math.random() < 0.25) {
+        if (Math.random() < 0.25 && !hasExit) {
             newTile.top = false;
             newTile.right = false;
             newTile.bottom = false;
@@ -82,11 +83,13 @@ export function getCell(direction) {
                     break;
             }
 
+            
             newTile.exit = true;
+            hasExit = true;
+            numCellsGenerated++;
+            board[yn][xn] = newTile;
+            return newTile;
         }
-
-        numCellsGenerated++;
-        return newTile;
     }
 
     // Checking
@@ -126,7 +129,7 @@ export function getCell(direction) {
 export function drawMap() {
     let blockSize = 2;
     Graphics.drawRect(0, 0, 128, 128, "overlay");
-    Graphics.drawText(64, 31, "Map", 3, { x: "center", y: "bottom" }, "player");
+    Graphics.drawText(64, 31, "Minimap", 3, { x: "center", y: "bottom" }, "player");
     for (let i = 0; i < 32; i++) {
         for (let j = 0; j < 32; j++) {
             const cell = board[j][i];

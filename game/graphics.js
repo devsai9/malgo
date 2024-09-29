@@ -87,7 +87,8 @@ const displaySettings = {
     player: "#ffffff",
     barricade: "#ff3050", //"#ff7086"// "#ffb74a"
     overlay: "#000000bb",
-    unexplored: "#555555"
+    unexplored: "#555555",
+    exit: "#6ef8ff"
 };
 
 export function setDisplay(setting, value) {
@@ -99,7 +100,7 @@ export function getDisplay(setting) {
 }
 
 export function drawBlock(x, y, dir, type, channel) {
-    ctx.fillStyle = getDisplay(channel);
+    const color = getDisplay(channel);
     const tile = rotate(tileset[type], dir);
     x = x * 8 + resolution * 0.5;
     y = y * 8 + resolution * 0.5;
@@ -109,9 +110,12 @@ export function drawBlock(x, y, dir, type, channel) {
     for(let i = 0; i < 64; i++) {
         const ix = i % 8 - 4;
         const iy = Math.floor(i / 8) - 4;
-        if(tile[i] === 1) {
-            ctx.fillRect(f(sx + ix * size), f(sy + iy * size), f(size) + 1, f(size) + 1);
+        if(tile[i] === 0) {
+            continue;
         }
+        else if(tile[i] === 1) ctx.fillStyle = color;
+        else ctx.fillStyle = "#000";
+        ctx.fillRect(f(sx + ix * size), f(sy + iy * size), f(size) + 1, f(size) + 1);
     }
 }
 

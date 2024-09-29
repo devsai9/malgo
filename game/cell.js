@@ -3,7 +3,8 @@ import * as Board from "./board.js";
 
 const _BlockType = [
     "WALL",
-    "AIR"
+    "AIR",
+    "Exit"
 ];
 const BlockType = {};
 _BlockType.forEach((type) => { BlockType[type] = Symbol(type); });
@@ -14,6 +15,11 @@ const pos = {
     x: 0,
     y: 0
 };
+
+let exit = false;
+export function done() {
+    return exit;
+}
 
 let lastDir = 0;
 const dirMap = [
@@ -54,6 +60,7 @@ export function loadCell(cellNew) {
     cell.bottom = cellNew.bottom;
     cell.left = cellNew.left;
     cell.right = cellNew.right;
+    cell.exit = cellNew.exit;
     const blockTop = makeBlock(cellNew.top);
     const blockBottom = makeBlock(cellNew.bottom);
     const blockLeft = makeBlock(cellNew.left);
@@ -71,10 +78,17 @@ export function loadCell(cellNew) {
     [14, 21, 28].forEach(i => { blocks[i] = blockLeft; });
     [44, 45, 46].forEach(i => { blocks[i] = blockBottom; });
     [20, 27, 34].forEach(i => { blocks[i] = blockRight; });
+    const blockExit = cell.exit ? BlockType.EXIT : BlockType.AIR;
+    blocks[24] = blockExit;
 }
 
 export function drawCell() {
     Graphics.clear();
+    if(exit) {
+        Graphics.drawText(64, 62, "You escaped the maze!", 8, { x: "center", y: "bottom" }, "player");
+        Graphics.drawText(64, 66, "(Press space to restart)", 6, { x: "center", y: "top" }, "player");
+        return;
+    }
     Graphics.drawBlock(-3, -3, 0, 0, "block");
     Graphics.drawBlock(3, -3, 1, 0, "block");
     Graphics.drawBlock(-3, 3, 3, 0, "block");
@@ -110,6 +124,10 @@ export function drawCell() {
     drawPlayer();
     const [ bx, by ] = Board.getPos();
     Graphics.drawText(127, 1, `Pos: ${bx}, ${by}`, 3, { x: "right", y: "top" }, "player");
+    if(cell.exit) {
+        Graphics.drawBlock(0, -0.5, 0, 6, "exit");
+        Graphics.drawBlock(0, 0.5, 0, 7, "exit");
+    }
 }
 
 const easing = (t) => t > 0.5 ? 1 - 4 * (1 - t) ** 3 : 4 * t ** 3;
@@ -154,7 +172,11 @@ export function movePlayer(dir) {
     }
     const xs = xn + 3;
     const ys = yn + 3;
-    if(blocks[7 * ys + xs] !== BlockType.AIR) return;
+    const blockNew = blocks[7 * ys + xs];
+    if(blockNew !== BlockType.AIR && blockNew !== BlockType.EXIT) return;
+    if(blockNew === BlockType.EXIT) {
+        exit = true;
+    }
     playerAnim = 1;
     pos.x = xn;
     pos.y = yn;

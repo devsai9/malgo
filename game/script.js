@@ -11,6 +11,10 @@ function main() {
 const keyprevmap = {};
 const keymap = {};
 
+function keypress(key) {
+    return !keyprevmap[key] && keymap[key];
+}
+
 function loop() {
     window.requestAnimationFrame(loop);
 
@@ -20,10 +24,10 @@ function loop() {
         if(keymap["a"] || keymap["arrowleft"]) Cell.movePlayer(2);
         if(keymap["s"] || keymap["arrowdown"]) Cell.movePlayer(3);
     }
-    if(
-        !keyprevmap["z"] && keymap["z"]
-        || !keyprevmap["/"] && keymap["/"]
-    ) mapShown = !mapShown;
+    if(keypress("z") || keypress("/")) mapShown = !mapShown;
+    if(keypress(" ") && Cell.done()) {
+        window.location.reload();
+    }
     if (!mapShown) Cell.drawCell();
     else Board.drawMap();
 
