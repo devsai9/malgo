@@ -19,9 +19,13 @@ resizeCanvas();
 export function resizeCanvas() {
     const w = window.innerWidth;
     const h = window.innerHeight;
+    dimensions.w = w;
+    dimensions.h = h;
     canvas.width = w * dp;
     canvas.height = h * dp;
 }
+
+window.addEventListener("resize", resizeCanvas);
 
 function scaleLen(l) {
     l *= dp;
