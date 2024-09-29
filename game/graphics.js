@@ -54,7 +54,7 @@ function transPos(x, y) {
 window.transPos = transPos;
 
 function sanitize(v) {
-    return Math.round(v) + 0.5;
+    return Math.round(v)// + 0.5;
 }
 
 function rotate(tile, dir) {
@@ -116,7 +116,7 @@ export function drawRect(x, y, w, h, channel) {
     const [ px, py ] = transPos(x, y);
     console.log("X: " + px + ", Y: " + py);
     const f = sanitize;
-    ctx.fillRect(f(px), f(py), scaleLen(w), scaleLen(h));
+    ctx.fillRect(f(px), f(py), Math.ceil(scaleLen(w)), Math.ceil(scaleLen(h)));
 }
 
 export function clear(color) {

@@ -90,7 +90,7 @@ export function getCell(direction) {
 
     // Procedural generation
     openings.forEach(opening => {
-        if (Math.random() < 0.7) {
+        if (Math.random() < 0.3) {
             newTile[opening] = true;
         }
     });
@@ -117,6 +117,11 @@ export function drawMap() {
             if (!cell.right) Graphics.drawRect((i + 16.75) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize, "block");
             if (!cell.bottom) Graphics.drawRect((i + 16) * blockSize, (j + 16.75) * blockSize, blockSize, blockSize * 0.25, "block");
             if (!cell.left) Graphics.drawRect((i + 16) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize, "block");
+
+            Graphics.drawRect((i + 16) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize * 0.25, "block");
+            Graphics.drawRect((i + 16.75) * blockSize, (j + 16) * blockSize, blockSize * 0.25, blockSize * 0.25, "block");
+            Graphics.drawRect((i + 16) * blockSize, (j + 16.75) * blockSize, blockSize * 0.25, blockSize * 0.25, "block");
+            Graphics.drawRect((i + 16.75) * blockSize, (j + 16.75) * blockSize, blockSize * 0.25, blockSize * 0.25, "block");
 
             if (i == player.x && j == player.y) Graphics.drawRect((i + 16.25) * blockSize, (j + 16.25) * blockSize, blockSize * 0.5, blockSize * 0.5, "player");
         }
