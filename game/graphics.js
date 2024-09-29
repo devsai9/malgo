@@ -36,8 +36,7 @@ function scaleLen(l) {
 function transPos(x, y) {
     const w = dimensions.w;
     const h = dimensions.h;
-    const ratio = w / h;
-    if(ratio > 1) {
+    if(w > h) {
         // Too wide
         const offset = (w - h) * 0.5;
         const scale = h / resolution;
@@ -45,14 +44,17 @@ function transPos(x, y) {
     }
     else {
         // Too tall
-        const offset = (w - h) * 0.5;
-        const scale = h / resolution;
-        return [ (x * scale + offset) * dp, y * scale * dp ];
+        const offset = (h - w) * 0.5;
+        const scale = w / resolution;
+        console.log(`${offset}, ${scale}`);
+        return [ x * scale * dp, (y * scale + offset) * dp ];
     }
 }
 
-function sanitize(x) {
-    return Math.round(x) + 0.5;
+window.transPos = transPos;
+
+function sanitize(v) {
+    return Math.round(v) + 0.5;
 }
 
 function rotate(tile, dir) {
@@ -76,9 +78,10 @@ function rotate(tile, dir) {
 //window.addEventListener("resize", onResize);
 
 const displaySettings = {
-    block: "#ff7086",
+    block: "#afff5e",
     text: "#6ef8ff",
-    player: "#ffffff"
+    player: "#ffffff",
+    cone: "#ff3050"//"#ff7086"// "#ffb74a"
 };
 
 export function setDisplay(setting, value) {
@@ -110,6 +113,16 @@ export function clear(color) {
     color ||= "#000";
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+export function drawText(x, y, str, channel) {
+    const [ px, py ] = transPos(x, y);
+    const f = sanitize;
+    ctx.fillStyle = getDisplay(channel);
+    ctx.font = `100 ${scaleLen(5)}px NokiaPhone`;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "top";
+    ctx.fillText(str, f(px), f(py));
 }
 
 //drawBlock(0, 0, 1, 0, "block");

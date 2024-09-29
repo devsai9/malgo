@@ -63,7 +63,7 @@ export function getCell(direction) {
         }
 
         numCellsGenerated++;
-        return;
+        return newTile;
     }
 
     // Checking
@@ -89,7 +89,7 @@ export function getCell(direction) {
 
     // Procedural generation
     openings.forEach(opening => {
-        if (Math.random() < 0.5) {
+        if (Math.random() < 0.8) {
             newTile[opening] = true;
         }
     });

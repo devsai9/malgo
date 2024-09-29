@@ -106,6 +106,7 @@ export function movePlayer(dir) {
     
     if(xn > 3 || xn < -3 || yn > 3 || yn < -3) {
         const cellNew = Board.getCell(dir);
+        console.log(cellNew)
         loadCell(cellNew);
         if(dir === 0) pos.x = -3;
         else if(dir === 1) pos.y = 3;
