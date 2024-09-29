@@ -24,8 +24,22 @@ const dirMap = [
 ];
 let playerAnim = 0;
 
+let refreshRate = 60;
+let last = 0;
+function refreshRateChecker(now) {
+    window.requestAnimationFrame(refreshRateChecker);
+    if(last === 0) {
+        last = now;
+        return;
+    }
+    refreshRate = 1000 / (now - last);
+    last = now
+}
+refreshRateChecker();
+
 export function nextFrame() {
-    if(playerAnim >= 0.1) playerAnim -= 0.1;
+    const dt = 6 / refreshRate;
+    if(playerAnim >= dt) playerAnim -= dt;
     else playerAnim = 0;
 };
 
