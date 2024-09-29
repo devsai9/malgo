@@ -60,17 +60,17 @@ export function getCell(direction) {
     const openings = [];
 
     // Randomly generate an exit
-    // if (numCellsGenerated > 20) {
-    //     if (Math.random() < 0.25) {
-    //         newTile.top = false;
-    //         newTile.right = false;
-    //         newTile.bottom = false;
-    //         newTile.left = false;
-    //     }
+    if (numCellsGenerated > 30) {
+        if (Math.random() < 0.25) {
+            newTile.top = false;
+            newTile.right = false;
+            newTile.bottom = false;
+            newTile.left = false;
+        }
 
-    //     numCellsGenerated++;
-    //     return newTile;
-    // }
+        numCellsGenerated++;
+        return newTile;
+    }
 
     // Checking
     if (xn == 0) newTile.left = false;
