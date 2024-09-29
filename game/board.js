@@ -22,8 +22,6 @@ player.x = 15;
 player.y = 15;
 board[15][15] = {top: true, right: true, bottom: true, left: true};
 
-console.log(board);
-
 export function getInitial() {
     return board[15][15];
 }

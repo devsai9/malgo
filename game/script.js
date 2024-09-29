@@ -40,7 +40,6 @@ function loop() {
 const font = new FontFace("NokiaPhone", "url(../fonts/nokiafc22.ttf)");
 font.load().then((font) => {
     document.fonts.add(font);
-    console.log("yes");
     main();
     // Graphics.drawText(127, 1, "Position: 0, 0", "barricade");
 });
