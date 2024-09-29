@@ -15,12 +15,15 @@ function loop() {
     window.requestAnimationFrame(loop);
 
     if(!mapShown) {
-        if(keymap["d"]) Cell.movePlayer(0);
-        if(keymap["w"]) Cell.movePlayer(1);
-        if(keymap["a"]) Cell.movePlayer(2);
-        if(keymap["s"]) Cell.movePlayer(3);
+        if(keymap["d"] || keymap["arrowright"]) Cell.movePlayer(0);
+        if(keymap["w"] || keymap["arrowup"]) Cell.movePlayer(1);
+        if(keymap["a"] || keymap["arrowleft"]) Cell.movePlayer(2);
+        if(keymap["s"] || keymap["arrowdown"]) Cell.movePlayer(3);
     }
-    if(!keyprevmap["z"] && keymap["z"]) mapShown = !mapShown;
+    if(
+        !keyprevmap["z"] && keymap["z"]
+        || !keyprevmap["/"] && keymap["/"]
+    ) mapShown = !mapShown;
     if (!mapShown) Cell.drawCell();
     else Board.drawMap();
 
