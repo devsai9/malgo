@@ -98,10 +98,10 @@ export function drawCell() {
     Graphics.drawText(127, 1, `Pos: ${bx}, ${by}`, 3, { x: "right", y: "top" }, "player");
 }
 
-const easing = (t) => -10 / 9 * 10 ** -t + 10 / 9;
+const easing = (t) => t > 0.5 ? 1 - 4 * (1 - t) ** 3 : 4 * t ** 3;
 
 function drawPlayer() {
-    const t = easing(playerAnim)
+    const t = easing(playerAnim);
     const x = pos.x - t * dirMap[lastDir][0];
     const y = pos.y - t * dirMap[lastDir][1];
     Graphics.drawBlock(x, y, 0, 4, "player");

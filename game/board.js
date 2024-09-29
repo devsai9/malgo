@@ -94,7 +94,7 @@ export function getCell(direction) {
 
     // Procedural generation
     openings.forEach(opening => {
-        if (Math.random() < 0.4) {
+        if (Math.random() < 0.5) {
             newTile[opening] = true;
         }
     });
