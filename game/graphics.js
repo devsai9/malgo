@@ -82,7 +82,7 @@ const displaySettings = {
     text: "#6ef8ff",
     player: "#ffffff",
     barricade: "#ff3050", //"#ff7086"// "#ffb74a"
-    overlay: "#000000",
+    overlay: "#000000bb",
     unexplored: "#555555"
 };
 
@@ -114,7 +114,6 @@ export function drawBlock(x, y, dir, type, channel) {
 export function drawRect(x, y, w, h, channel) {
     ctx.fillStyle = getDisplay(channel);
     const [ px, py ] = transPos(x, y);
-    console.log("X: " + px + ", Y: " + py);
     const f = sanitize;
     ctx.fillRect(f(px), f(py), Math.ceil(scaleLen(w)), Math.ceil(scaleLen(h)));
 }
@@ -125,13 +124,13 @@ export function clear(color) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-export function drawText(x, y, str, channel) {
+export function drawText(x, y, str, size, center, channel) {
     const [ px, py ] = transPos(x, y);
     const f = sanitize;
     ctx.fillStyle = getDisplay(channel);
-    ctx.font = `100 ${scaleLen(5)}px NokiaPhone`;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
+    ctx.font = `100 ${Math.ceil(scaleLen(size))}px NokiaPhone`;
+    ctx.textAlign = center.x;
+    ctx.textBaseline = center.y;
     ctx.fillText(str, f(px), f(py));
 }
 

@@ -4,6 +4,7 @@ const board = [
     [{top: false, right: true, bottom: true, left: false}]
 ];
 
+
 const player = {
     x: 0,
     y: 0
@@ -22,6 +23,10 @@ console.log(board);
 
 export function getInitial() {
     return board[0][0];
+}
+
+export function getPos() {
+    return [ player.x, player.y ];
 }
 
 export function getCell(direction) {
@@ -47,7 +52,6 @@ export function getCell(direction) {
     player.x = xn;
     player.y = yn;
     // Check if cell already exists
-    console.log(`x: ${xn}, y: ${yn}`);
     if (board[yn][xn] != null) return board[yn][xn];
     
     // Generate new cell
@@ -90,14 +94,13 @@ export function getCell(direction) {
 
     // Procedural generation
     openings.forEach(opening => {
-        if (Math.random() < 0.3) {
+        if (Math.random() < 0.4) {
             newTile[opening] = true;
         }
     });
     
     numCellsGenerated++;
 
-    console.log(board);
     board[yn][xn] = newTile;
     return newTile;
 }
@@ -105,6 +108,7 @@ export function getCell(direction) {
 export function drawMap() {
     let blockSize = 2;
     Graphics.drawRect(0, 0, 128, 128, "overlay");
+    Graphics.drawText(64, 31, "Map", 3, { x: "center", y: "bottom" }, "player");
     for (let i = 0; i < 32; i++) {
         for (let j = 0; j < 32; j++) {
             const cell = board[j][i];

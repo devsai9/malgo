@@ -15,6 +15,20 @@ const pos = {
     y: 0
 };
 
+let lastDir = 0;
+const dirMap = [
+    [ 1, 0 ],
+    [ 0, -1 ],
+    [ -1, 0 ],
+    [ 0, 1 ]
+];
+let playerAnim = 0;
+
+export function nextFrame() {
+    if(playerAnim >= 0.1) playerAnim -= 0.1;
+    else playerAnim = 0;
+};
+
 loadCell({ top: false, bottom: false, left: false, right: false });
 
 function makeBlock(param) {
@@ -80,13 +94,24 @@ export function drawCell() {
         [-2, -1, 0, 1, 2].forEach(n => Graphics.drawBlock(n, 3, 0, 2, "block"));
     }
     drawPlayer();
+    const [ bx, by ] = Board.getPos();
+    Graphics.drawText(127, 1, `Pos: ${bx}, ${by}`, 3, { x: "right", y: "top" }, "player");
 }
+
+const easing = (t) => -10 / 9 * 10 ** -t + 10 / 9;
 
 function drawPlayer() {
-    Graphics.drawBlock(pos.x, pos.y, 0, 4, "player");
+    const t = easing(playerAnim)
+    const x = pos.x - t * dirMap[lastDir][0];
+    const y = pos.y - t * dirMap[lastDir][1];
+    Graphics.drawBlock(x, y, 0, 4, "player");
 }
 
+
 export function movePlayer(dir) {
+    if(playerAnim !== 0) return;
+    playerAnim = 1;
+    lastDir = dir;
     let xn = pos.x;
     let yn = pos.y;
     switch(dir) {
@@ -106,7 +131,6 @@ export function movePlayer(dir) {
     
     if(xn > 3 || xn < -3 || yn > 3 || yn < -3) {
         const cellNew = Board.getCell(dir);
-        console.log(cellNew)
         loadCell(cellNew);
         if(dir === 0) pos.x = -3;
         else if(dir === 1) pos.y = 3;
