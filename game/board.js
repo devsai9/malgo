@@ -1,9 +1,7 @@
 import * as Graphics from "./graphics.js";
-// True: Open; False: Wall
-const board = [
-    [{top: false, right: true, bottom: true, left: false}]
-];
 
+// True: Open; False: Wall
+const board = [];
 
 const player = {
     x: 0,
@@ -13,16 +11,21 @@ const player = {
 let numCellsGenerated = 0;
 
 for (let i = 0; i < 32; i++) {
-    if (i != 0) board.push([]);
-    for (let j = (i == 0 ? 1 : 0); j < 32; j++) {
+    board.push([]);
+    for (let j = 0; j < 32; j++) {
         board[i].push(null);
     }
-}
+}   
+
+// Set player in the center
+player.x = 15;
+player.y = 15;
+board[15][15] = {top: true, right: true, bottom: true, left: true};
 
 console.log(board);
 
 export function getInitial() {
-    return board[0][0];
+    return board[15][15];
 }
 
 export function getPos() {
