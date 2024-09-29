@@ -66,6 +66,22 @@ export function getCell(direction) {
             newTile.right = false;
             newTile.bottom = false;
             newTile.left = false;
+
+            switch(direction) {
+                case 0:
+                    newTile.left = true;
+                    break;
+                case 1:
+                    newTile.bottom = true;
+                    break;
+                case 2:
+                    newTile.right = true;
+                    break;
+                case 3:
+                    newTile.top = true;
+                    break;
+            }
+
             newTile.exit = true;
         }
 
