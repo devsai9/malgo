@@ -83,12 +83,13 @@ export function loadCell(cellNew) {
 }
 
 export function drawCell() {
-    Graphics.clear();
+
     if(exit) {
         Graphics.drawText(64, 62, "You escaped the maze!", 8, { x: "center", y: "bottom" }, "player");
         Graphics.drawText(64, 66, "(Press space to restart)", 6, { x: "center", y: "top" }, "player");
         return;
     }
+
     Graphics.drawBlock(-3, -3, 0, 0, "block");
     Graphics.drawBlock(3, -3, 1, 0, "block");
     Graphics.drawBlock(-3, 3, 3, 0, "block");
@@ -122,8 +123,6 @@ export function drawCell() {
         [-2, -1, 0, 1, 2].forEach(n => Graphics.drawBlock(n, 3, 0, 2, "block"));
     }
     drawPlayer();
-    const [ bx, by ] = Board.getPos();
-    Graphics.drawText(127, 1, `Pos: ${bx}, ${by}`, 3, { x: "right", y: "top" }, "player");
     if(cell.exit) {
         Graphics.drawBlock(0, -0.5, 0, 6, "exit");
         Graphics.drawBlock(0, 0.5, 0, 7, "exit");

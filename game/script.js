@@ -17,6 +17,12 @@ function keypress(key) {
 
 function loop() {
     window.requestAnimationFrame(loop);
+    Graphics.clear();
+    const guideCenter = { x: "left", y: "top" };
+    Graphics.drawText(1, 2, "WASD or Arrow Keys to move", 3, guideCenter, "player");
+    Graphics.drawText(1, 7, "Z or / to toggle minimap", 3, guideCenter, "player");
+    const [ bx, by ] = Board.getPos();
+    Graphics.drawText(127, 1, `Pos: ${bx}, ${by}`, 3, { x: "right", y: "top" }, "player");
 
     if(!mapShown) {
         if(keymap["d"] || keymap["arrowright"]) Cell.movePlayer(0);
